@@ -1,9 +1,6 @@
-:root {
+* {
   font-family: 'Poppins', sans-serif;
   font-weight: 400;
-}
-
-* {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -31,16 +28,19 @@ input {
   border: none;
 }
 
+a {
+  text-decoration: none;
+}
+
 .searchform {
   width: 100%;
   max-width: 800px;
 }
 
 .searchbar {
-  font-family: 'Poppins', sans-serif;
   padding: 20px 30px;
   font-size: 18px;
-  border-radius: 30px;
+  border-radius: 50px;
   width: 100%;
   font-weight: 400;
 }
@@ -63,7 +63,7 @@ input {
   cursor: pointer;
   display: flex;
   flex-direction: column;
-  padding: 20px 0;
+  padding: 15px 0;
   align-items: center;
   justify-content: space-between;
 }
@@ -81,7 +81,7 @@ input {
 
 .item-name {
   color: #212121;
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   font-weight: 700;
   line-height: 1;
   text-align: center;
