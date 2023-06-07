@@ -80,19 +80,22 @@ h2 {
   position: sticky;
 }
 
+/* Main Page */
+
 .searchform {
   width: 100%;
   max-width: 800px;
 }
 
 .searchbar {
-  background-color: #616161;
+  background-color: rgb(67, 67, 67);
   padding: 20px 30px;
   font-size: 18px;
   border-radius: 50px;
   width: 100%;
   font-weight: 400;
   color: white;
+  height: 70px;
 }
 
 .searchbar::placeholder {
@@ -142,12 +145,122 @@ h2 {
   padding: 0 1rem;
 }
 
+
+
 /* Detail Page */
 
 #detail > h2 {
   text-align: center;
   padding: 0 1rem;
 }
+
+.navbar, .prev-pokemon, .next-pokemon {
+  display: flex;
+  align-items: center;
+}
+
+.navbar {
+  width: 100%;
+  max-width: 800px;
+  height: 70px;
+  border-radius: 50px;
+  overflow: hidden;
+}
+
+.navbar > div {
+  height: 100%;
+  background-color: rgb(67, 67, 67);
+  border-radius: .3rem;
+  transition: .2s;
+}
+
+
+.navbar > div > i {
+  color: #bababa;
+  transform: scale(2);
+}
+
+.prev-pokemon {
+  width: 100%;
+}
+
+.prev-pokemon > * {
+  margin-left: 1.2rem;
+}
+
+.next-pokemon {
+  width: 100%;
+  justify-content: flex-end;
+}
+
+.next-pokemon > * {
+  margin-right: 1.2rem;
+}
+
+.next-pokemon:hover, .prev-pokemon:hover {
+  background-color: #2cd0e8;
+  cursor: pointer;
+}
+
+.next-pokemon:hover > i, .prev-pokemon:hover > i {
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.next-pokemon:hover > .navbar-next-name, .prev-pokemon:hover > .navbar-prev-name {
+  color: #333333;
+}
+
+#navbar-back-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 .5rem;
+  white-space: nowrap;
+  padding: 0 1.5rem;
+  font-weight: 600;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+#navbar-back-btn > i {
+  transform: scale(1.3);
+  transition: .2s;
+}
+
+#navbar-back-btn:hover {
+  background-color: #616161;
+}
+
+#navbar-back-btn:hover > i {
+  color: #2cd0e8;
+  color: #fff;
+}
+
+
+.navbar-prev-id, .navbar-next-id {
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.navbar-prev-name, .navbar-next-name {
+  color: #a9a9a9;
+  font-weight: 600;
+  font-size: 1.3rem;
+  transition: .2s;
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -253,6 +366,7 @@ h2 {
   line-height: 1.1;
   margin-right: .6rem;
   font-weight: 600;
+  background-color: black;
 }
 
 .detail-type-img {
@@ -264,6 +378,79 @@ h2 {
   height: 100%;
   object-fit: contain;
 }
+
+.bg-bug {
+  background: var(--bg-bug);
+}
+
+.bg-dark {
+  background: var(--bg-dark);
+}
+
+.bg-dragon {
+  background: var(--bg-dragon);
+}
+
+.bg-electric {
+  background: var(--bg-electric);
+}
+
+.bg-fairy {
+  background: var(--bg-fairy);
+}
+
+.bg-fighting {
+  background: var(--bg-fighting);
+}
+
+.bg-fire {
+  background: var(--bg-fire);
+}
+
+.bg-flying {
+  background: var(--bg-flying);
+}
+
+.bg-ghost {
+  background: var(--bg-ghost);
+}
+
+.bg-grass {
+  background: var(--bg-grass);
+}
+
+.bg-ground {
+  background: var(--bg-ground);
+}
+
+.bg-ice {
+  background: var(--bg-ice);
+}
+
+.bg-normal {
+  background: var(--bg-normal);
+}
+
+.bg-poison {
+  background: var(--bg-poison);
+}
+
+.bg-psychic {
+  background: var(--bg-psychic);
+}
+
+.bg-rock {
+  background: var(--bg-rock);
+}
+
+.bg-steel {
+  background: var(--bg-steel);
+}
+
+.bg-water {
+  background: var(--bg-water);
+}
+
 
 .panel-4 {
   grid-row: 2/4;

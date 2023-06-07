@@ -3,6 +3,66 @@ import { getSpecies } from "./api/pokedex";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import circleBg from './assets/circles-bg.svg';
 import circleBg2 from './assets/circles-bg-2.svg';
+import bugIcon from './assets/types/bug.svg';
+import darkIcon from './assets/types/dark.svg';
+import dragonIcon from './assets/types/dragon.svg';
+import electricIcon from './assets/types/electric.svg';
+import fairyIcon from './assets/types/fairy.svg';
+import fightingIcon from './assets/types/fighting.svg';
+import fireIcon from './assets/types/fire.svg';
+import flyingIcon from './assets/types/flying.svg';
+import ghostIcon from './assets/types/ghost.svg';
+import grassIcon from './assets/types/grass.svg';
+import groundIcon from './assets/types/ground.svg';
+import iceIcon from './assets/types/ice.svg';
+import normalIcon from './assets/types/normal.svg';
+import poisonIcon from './assets/types/poison.svg';
+import psychicIcon from './assets/types/psychic.svg';
+import rockIcon from './assets/types/rock.svg';
+import steelIcon from './assets/types/steel.svg';
+import waterIcon from './assets/types/water.svg';
+
+const typeIcons = {
+    bug: bugIcon,
+    dark: darkIcon,
+    dragon: dragonIcon,
+    electric: electricIcon,
+    fairy: fairyIcon,
+    fighting: fightingIcon,
+    fire: fireIcon,
+    flying: flyingIcon,
+    ghost: ghostIcon,
+    grass: grassIcon,
+    ground: groundIcon,
+    ice: iceIcon,
+    normal: normalIcon,
+    poison: poisonIcon,
+    psychic: psychicIcon,
+    rock: rockIcon,
+    steel: steelIcon,
+    water: waterIcon,
+  };
+
+const typeBgs = {
+    bug: "bg-bug",
+    dark: "bg-dark",
+    dragon: "bg-dragon",
+    electric: "bg-electric",
+    fairy: "bg-fairy",
+    fighting: "bg-fighting",
+    fire: "bg-fire",
+    flying: "bg-flying",
+    ghost: "bg-ghost",
+    grass: "bg-grass",
+    ground: "bg-ground",
+    ice: "bg-ice",
+    normal: "bg-normal",
+    poison: "bg-poison",
+    psychic: "bg-psychic",
+    rock: "bg-rock",
+    steel: "bg-steel",
+    water: "bg-water",
+  };
 
 export const PokemonDetail = () => {
 
@@ -25,6 +85,24 @@ export const PokemonDetail = () => {
         return <span>Loading...</span>;
     }
 
+    const getDisplayableID = (num) => {
+        let id = "#";
+        for(let i = num.toString().length; i < 3; i++) {
+            id += "0";
+        }
+        return id + num;
+    }
+
+    const getDisplayableName = (str) => {
+        const words = str.split("-");
+        const res = words.map(word => {
+            const firstLetter = word[0];
+            const rest = word.slice(1);
+            return firstLetter.toUpperCase() + rest;
+        })
+        return res.join("-");
+    }
+
     const id = getDisplayableID(pokemonData.id);
     const dName = getDisplayableName(name);
     const img = pokemonData.sprites.other["official-artwork"].front_default;
@@ -42,42 +120,26 @@ export const PokemonDetail = () => {
     const spAtt = pokemonData.stats[3].base_stat;
     const spDef = pokemonData.stats[4].base_stat;
     const init = pokemonData.stats[5].base_stat;
-    
+    const types = pokemonData.types.map(type => type.type.name);
 
-
-    function getDisplayableID(num) {
-        let id = "#";
-        for(let i = num.toString().length; i < 3; i++) {
-            id += "0";
-        }
-        return id + num;
-    }
-
-    function getDisplayableName(str) {
-        const words = str.split("-");
-        const res = words.map(word => {
-            const firstLetter = word[0];
-            const rest = word.slice(1);
-            return firstLetter.toUpperCase() + rest;
-        })
-        return res.join("-");
-    }
 
     return (
         <main id="detail">
             <div className="top">
-                <div className="prev-pokemon">
-                    <i className="ri-arrow-left-s-line"></i>
-                    <div className="settings-prev-id"></div>
-                    <div className="settings-prev-name"></div>
-                </div>
-                <div id="details-back-btn">
-                    <i className="ri-home-2-fill"></i>
-                </div>
-                <div className="next-pokemon">
-                    <div className="settings-next-name"></div>
-                    <div className="settings-next-id"></div>
-                    <i className="ri-arrow-right-s-line"></i>
+                <div className="navbar">
+                    <div className="prev-pokemon">
+                        <i className="ri-arrow-left-s-line"></i>
+                        <div className="navbar-prev-id"></div>
+                        <div className="navbar-prev-name"></div>
+                    </div>
+                    <div id="navbar-back-btn">
+                        <i className="ri-home-2-fill"></i>
+                    </div>
+                    <div className="next-pokemon">
+                        <div className="navbar-next-name"></div>
+                        <div className="navbar-next-id"></div>
+                        <i className="ri-arrow-right-s-line"></i>
+                    </div>
                 </div>
             </div>
             <div className="grid-details-one">
@@ -95,10 +157,22 @@ export const PokemonDetail = () => {
                     <p className="details-flavor-text">{description}</p>
                 </div>
                 <div className="details-panel panel-3">
-                    <div className="details-types"></div>
+                    <div className="details-types">
+                        {types.map(type => {
+                            return (
+                                <div className={`detail-type ${typeBgs[type]}`} key={type}>
+                                    <div className="detail-type-img">
+                                        <img src={typeIcons[type]} alt="" />
+                                    <div />
+                                </div>
+                                {getDisplayableName(type)}
+                                </div>
+                            )
+                        })}
+                    </div>
                     <div className="details-props">
-                        <div><span className="details-prop-name">Height:</span><br /><span className="details-height">{heightMtr}</span></div>
-                        <div><span className="details-prop-name">Weight:</span><br /><span className="details-weight">{weightKg}</span></div>
+                        <div><span className="details-prop-name">Height:</span><br /><span className="details-height">{heightMtr} m</span></div>
+                        <div><span className="details-prop-name">Weight:</span><br /><span className="details-weight">{weightKg} kg</span></div>
                         <div><span className="details-prop-name">Rarity:</span><br /><span className="details-group">{rarity}</span></div>
                     </div>
                 </div>
