@@ -1,6 +1,6 @@
 import { Routes, Route, Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { getPokedex } from './pokedex';
+import { getPokedex } from './api/pokedex';
 import { GridItem } from './GridItem';
 import { PokemonDetail } from './PokemonDetail';
 
@@ -34,18 +34,20 @@ export const App = () => {
     <Routes>
       <Route path="/" element={
         <main>
-          <form className='searchform'>
-            <input className='searchbar' placeholder='Search Pokemon...' type="text" value={searchInput} onChange={handleSearchChange}/>
-          </form>
+          <section className="top">
+            <form className='searchform'>
+              <input className='searchbar' placeholder='Search Pokemon...' type="text" value={searchInput} onChange={handleSearchChange}/>
+            </form>
+          </section>
           <div className="grid">
-            {displayedPokemon.map(p => {
+            {displayedPokemon.map(pokemonData => {
               return (
-                <Link key={p.id} to={`/pokemon/${p.name}`}>
+                <Link key={pokemonData.id} to={`/pokemon/${pokemonData.name}`} state={{ pokemonData }}>
                   <GridItem 
-                    key={p.id} 
-                    id={p.id} 
-                    name={p.name} 
-                    sprite={p.sprites.front_default}
+                    key={pokemonData.id} 
+                    id={pokemonData.id} 
+                    name={pokemonData.name} 
+                    sprite={pokemonData.sprites.front_default}
                   />
                 </Link>
               )
