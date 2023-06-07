@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getSpecies } from "./api/pokedex";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useParams, Routes, Route, Link } from "react-router-dom";
 import circleBg from './assets/circles-bg.svg';
 import circleBg2 from './assets/circles-bg-2.svg';
 import bugIcon from './assets/types/bug.svg';
@@ -22,52 +22,32 @@ import rockIcon from './assets/types/rock.svg';
 import steelIcon from './assets/types/steel.svg';
 import waterIcon from './assets/types/water.svg';
 
-const typeIcons = {
-    bug: bugIcon,
-    dark: darkIcon,
-    dragon: dragonIcon,
-    electric: electricIcon,
-    fairy: fairyIcon,
-    fighting: fightingIcon,
-    fire: fireIcon,
-    flying: flyingIcon,
-    ghost: ghostIcon,
-    grass: grassIcon,
-    ground: groundIcon,
-    ice: iceIcon,
-    normal: normalIcon,
-    poison: poisonIcon,
-    psychic: psychicIcon,
-    rock: rockIcon,
-    steel: steelIcon,
-    water: waterIcon,
+const typeData = {
+    bug: { icon: bugIcon, bgClass: "bg-bug" },
+    dark: { icon: darkIcon, bgClass: "bg-dark" },
+    dragon: { icon: dragonIcon, bgClass: "bg-dragon" },
+    electric: { icon: electricIcon, bgClass: "bg-electric" },
+    fairy: { icon: fairyIcon, bgClass: "bg-fairy" },
+    fighting: { icon: fightingIcon, bgClass: "bg-fighting" },
+    fire: { icon: fireIcon, bgClass: "bg-fire" },
+    flying: { icon: flyingIcon, bgClass: "bg-flying" },
+    ghost: { icon: ghostIcon, bgClass: "bg-ghost" },
+    grass: { icon: grassIcon, bgClass: "bg-grass" },
+    ground: { icon: groundIcon, bgClass: "bg-ground" },
+    ice: { icon: iceIcon, bgClass: "bg-ice" },
+    normal: { icon: normalIcon, bgClass: "bg-normal" },
+    poison: { icon: poisonIcon, bgClass: "bg-poison" },
+    psychic: { icon: psychicIcon, bgClass: "bg-psychic" },
+    rock: { icon: rockIcon, bgClass: "bg-rock" },
+    steel: { icon: steelIcon, bgClass: "bg-steel" },
+    water: { icon: waterIcon, bgClass: "bg-water" },
   };
+  
+  
 
-const typeBgs = {
-    bug: "bg-bug",
-    dark: "bg-dark",
-    dragon: "bg-dragon",
-    electric: "bg-electric",
-    fairy: "bg-fairy",
-    fighting: "bg-fighting",
-    fire: "bg-fire",
-    flying: "bg-flying",
-    ghost: "bg-ghost",
-    grass: "bg-grass",
-    ground: "bg-ground",
-    ice: "bg-ice",
-    normal: "bg-normal",
-    poison: "bg-poison",
-    psychic: "bg-psychic",
-    rock: "bg-rock",
-    steel: "bg-steel",
-    water: "bg-water",
-  };
-
-export const PokemonDetail = () => {
+export const PokemonDetail = ({ pokedex }) => {
 
     const location = useLocation();
-    const navigate = useNavigate();
 
     const { name } = useParams();
     const pokemonData = location.state.pokemonData;
@@ -82,7 +62,11 @@ export const PokemonDetail = () => {
     },[name])
 
     if(!pokemonData || !speciesData) {
-        return <span>Loading...</span>;
+        return (
+            <main className="loading-screen">
+                <span>Loading...</span>
+            </main>
+        );
     }
 
     const getDisplayableID = (num) => {
@@ -103,6 +87,7 @@ export const PokemonDetail = () => {
         return res.join("-");
     }
 
+    // Pokemon Props
     const id = getDisplayableID(pokemonData.id);
     const dName = getDisplayableName(name);
     const img = pokemonData.sprites.other["official-artwork"].front_default;
@@ -122,24 +107,27 @@ export const PokemonDetail = () => {
     const init = pokemonData.stats[5].base_stat;
     const types = pokemonData.types.map(type => type.type.name);
 
+    const prevPokemon = pokemonData.id === 1 ? pokedex[pokedex.length - 1] : pokedex[pokemonData.id - 2];
+    const nextPokemon = pokemonData.id === pokedex.length ? pokedex[0] : pokedex[pokemonData.id];
+
 
     return (
         <main id="detail">
             <div className="top">
                 <div className="navbar">
-                    <div className="prev-pokemon">
+                    <Link className="prev-pokemon" key={prevPokemon.id} to={`/pokemon/${prevPokemon.name}`} state={{ pokemonData: prevPokemon }}>
                         <i className="ri-arrow-left-s-line"></i>
-                        <div className="navbar-prev-id"></div>
-                        <div className="navbar-prev-name"></div>
-                    </div>
-                    <div id="navbar-back-btn">
+                        <div className="navbar-prev-id">{prevPokemon && getDisplayableID(prevPokemon.id)}</div>
+                        <div className="navbar-prev-name">{prevPokemon && getDisplayableName(prevPokemon.name)}</div>
+                    </Link>
+                    <Link id="navbar-back-btn" key={pokemonData.id} to={"/"}>
                         <i className="ri-home-2-fill"></i>
-                    </div>
-                    <div className="next-pokemon">
-                        <div className="navbar-next-name"></div>
-                        <div className="navbar-next-id"></div>
+                    </Link>
+                    <Link className="next-pokemon" key={nextPokemon.id} to={`/pokemon/${nextPokemon.name}`} state={{ pokemonData: nextPokemon }}>
+                        <div className="navbar-next-name">{nextPokemon && getDisplayableID(nextPokemon.id)}</div>
+                        <div className="navbar-next-id">{nextPokemon && getDisplayableName(nextPokemon.name)}</div>
                         <i className="ri-arrow-right-s-line"></i>
-                    </div>
+                    </Link>
                 </div>
             </div>
             <div className="grid-details-one">
@@ -160,9 +148,9 @@ export const PokemonDetail = () => {
                     <div className="details-types">
                         {types.map(type => {
                             return (
-                                <div className={`detail-type ${typeBgs[type]}`} key={type}>
+                                <div className={`detail-type ${typeData[type].bgClass}`} key={type}>
                                     <div className="detail-type-img">
-                                        <img src={typeIcons[type]} alt="" />
+                                        <img src={typeData[type].icon} alt="" />
                                     <div />
                                 </div>
                                 {getDisplayableName(type)}

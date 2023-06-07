@@ -35,9 +35,9 @@ export const App = () => {
       <Route path="/" element={
         <main>
           <section className="top">
-            <form className='searchform'>
+            <div className='searchform'>
               <input className='searchbar' placeholder='Search Pokemon...' type="text" value={searchInput} onChange={handleSearchChange}/>
-            </form>
+            </div>
           </section>
           <div className="grid">
             {displayedPokemon.map(pokemonData => {
@@ -55,7 +55,7 @@ export const App = () => {
           </div>
         </main>
       }></Route>
-      <Route path="/pokemon/:name" element={<PokemonDetail />} ></Route>
+      <Route path="/pokemon/:name" element={<PokemonDetail pokedex={pokedex}/>} ></Route>
     </Routes>
   )
 }
