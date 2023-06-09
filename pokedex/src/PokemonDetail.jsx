@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getAbility, getSpecies } from "./api/pokedex";
+import { getAbility, getPokedex, getSpecies } from "./api/pokedex";
 import { useLocation, useParams, Routes, Route, Link } from "react-router-dom";
 import circleBg from './assets/circles-bg.svg';
 import circleBg2 from './assets/circles-bg-2.svg';
@@ -50,22 +50,28 @@ export const PokemonDetail = ({ pokedexProp }) => {
     const location = useLocation();
 
     let { name } = useParams();
-    const pokemonData = location.state.pokemonData;
+    const [pokemonData, setPokemonData] = useState(location.state.pokemonData);
     const [speciesData, setSpeciesData] = useState(null);
     const [abilityOne, setAbilityOne] = useState('');
     const [abilityTwo, setAbilityTwo] = useState('');
     const [pokedex, setPokedex] = useState(pokedexProp);
 
     useEffect(() => {
+
+        setPokemonData(location.state.pokemonData);
         
-        const fetchPokemonData = async () => {
+        const checkData = async () => {
+            if (pokedex.length === 0) {
+                setPokedex(await getPokedex(2));
+           }
+        }
+
+        checkData();
+        
+        const fetchData = async () => {
             const speciesData = await getSpecies(name);
             setSpeciesData(speciesData);
-        };
 
-        fetchPokemonData();
-
-        const fetchAbilites = async () => {
             const urlOne = pokemonData.abilities[0].ability.url;
             const abilityOne = await getAbility(urlOne);
             setAbilityOne(abilityOne);
@@ -73,13 +79,13 @@ export const PokemonDetail = ({ pokedexProp }) => {
             const urlTwo = pokemonData.abilities[1].ability.url;
             const abilityTwo = await getAbility(urlTwo);
             setAbilityTwo(abilityTwo);
-        }
+        };
 
-        fetchAbilites();
+        fetchData();
 
-    },[name])
+    },[name, pokedex])
 
-    if(!pokemonData || !speciesData) {
+    if(!pokemonData || !speciesData || pokedex.length === 0) {
         return (
             <main className="loading-screen">
                 <span>Loading...</span>
