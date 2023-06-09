@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getSpecies } from "./api/pokedex";
+import { getAbility, getSpecies } from "./api/pokedex";
 import { useLocation, useParams, Routes, Route, Link } from "react-router-dom";
 import circleBg from './assets/circles-bg.svg';
 import circleBg2 from './assets/circles-bg-2.svg';
@@ -52,13 +52,29 @@ export const PokemonDetail = ({ pokedex }) => {
     const { name } = useParams();
     const pokemonData = location.state.pokemonData;
     const [speciesData, setSpeciesData] = useState(null);
+    const [abilityOne, setAbilityOne] = useState('');
+    const [abilityTwo, setAbilityTwo] = useState('');
 
     useEffect(() => {
         const fetchPokemonData = async () => {
             const speciesData = await getSpecies(name);
             setSpeciesData(speciesData);
         };
+
         fetchPokemonData();
+
+        const fetchAbilites = async () => {
+            const urlOne = pokemonData.abilities[0].ability.url;
+            const abilityOne = await getAbility(urlOne);
+            setAbilityOne(abilityOne);
+            if (pokemonData.abilities.length <= 1) return;
+            const urlTwo = pokemonData.abilities[1].ability.url;
+            const abilityTwo = await getAbility(urlTwo);
+            setAbilityTwo(abilityTwo);
+        }
+
+        fetchAbilites();
+
     },[name])
 
     if(!pokemonData || !speciesData) {
@@ -107,6 +123,9 @@ export const PokemonDetail = ({ pokedex }) => {
     const init = pokemonData.stats[5].base_stat;
     const types = pokemonData.types.map(type => type.type.name);
 
+    const abilityOneName = getDisplayableName(pokemonData.abilities[0].ability.name);
+    const abilityTwoName = pokemonData.abilities.length > 1 ? getDisplayableName(pokemonData.abilities[1].ability.name) : '';
+
     const prevPokemon = pokemonData.id === 1 ? pokedex[pokedex.length - 1] : pokedex[pokemonData.id - 2];
     const nextPokemon = pokemonData.id === pokedex.length ? pokedex[0] : pokedex[pokemonData.id];
 
@@ -124,8 +143,8 @@ export const PokemonDetail = ({ pokedex }) => {
                         <i className="ri-home-2-fill"></i>
                     </Link>
                     <Link className="next-pokemon" key={nextPokemon.id} to={`/pokemon/${nextPokemon.name}`} state={{ pokemonData: nextPokemon }}>
-                        <div className="navbar-next-name">{nextPokemon && getDisplayableID(nextPokemon.id)}</div>
-                        <div className="navbar-next-id">{nextPokemon && getDisplayableName(nextPokemon.name)}</div>
+                        <div className="navbar-next-id">{nextPokemon && getDisplayableID(nextPokemon.id)}</div>
+                        <div className="navbar-next-name">{nextPokemon && getDisplayableName(nextPokemon.name)}</div>
                         <i className="ri-arrow-right-s-line"></i>
                     </Link>
                 </div>
@@ -232,13 +251,13 @@ export const PokemonDetail = ({ pokedex }) => {
                 <div className="details-panel panel-5">
                     <div className="abilities-content">
                         <div className="ability-one">
-                            <span className="ability-one-name"></span>
-                            <p className="ability-one-text"></p>
+                            <span className="ability-one-name">{abilityOneName}</span>
+                            <p className="ability-one-text">{abilityOne}</p>
                         </div>
-                        <div className="abilities-break"></div>
+                        { abilityTwo && <div className="abilities-break"></div> }
                         <div className="ability-two">
-                            <span className="ability-two-name"></span>
-                            <p className="ability-two-text"></p>
+                            <span className="ability-two-name">{abilityTwoName}</span>
+                            <p className="ability-two-text">{abilityTwo}</p>
                         </div>
                     </div>
                     <div className="bg-shape-abilities"></div>
