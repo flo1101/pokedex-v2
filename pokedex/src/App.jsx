@@ -55,7 +55,7 @@ export const App = () => {
           </div>
         </main>
       }></Route>
-      <Route path="/pokemon/:name" element={<PokemonDetail pokedex={pokedex}/>} ></Route>
+      <Route path="/pokemon/:name" element={<PokemonDetail pokedexProp={pokedex}/>} ></Route>
     </Routes>
   )
 }

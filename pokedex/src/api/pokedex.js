@@ -2,7 +2,7 @@ import axios from "axios";
 
 const BASE_URL = 'https://pokeapi.co/api/v2/'
 
-const getPokemon = async (pokemonName) => {
+export const getPokemon = async (pokemonName) => {
     let data;
     try {
         const res = await axios.get(BASE_URL + `pokemon/${pokemonName}`);

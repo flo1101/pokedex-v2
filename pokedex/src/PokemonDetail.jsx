@@ -45,17 +45,19 @@ const typeData = {
   
   
 
-export const PokemonDetail = ({ pokedex }) => {
+export const PokemonDetail = ({ pokedexProp }) => {
 
     const location = useLocation();
 
-    const { name } = useParams();
+    let { name } = useParams();
     const pokemonData = location.state.pokemonData;
     const [speciesData, setSpeciesData] = useState(null);
     const [abilityOne, setAbilityOne] = useState('');
     const [abilityTwo, setAbilityTwo] = useState('');
+    const [pokedex, setPokedex] = useState(pokedexProp);
 
     useEffect(() => {
+        
         const fetchPokemonData = async () => {
             const speciesData = await getSpecies(name);
             setSpeciesData(speciesData);
