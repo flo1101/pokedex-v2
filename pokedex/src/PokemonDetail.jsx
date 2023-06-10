@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getAbility, getPokedex, getSpecies } from "./api/pokedex";
+import { getAbility, getEvolutionChain, getPokedex, getPokemon, getSpecies } from "./api/pokedex";
 import { useLocation, useParams, Routes, Route, Link } from "react-router-dom";
 import circleBg from './assets/circles-bg.svg';
 import circleBg2 from './assets/circles-bg-2.svg';
@@ -50,28 +50,28 @@ export const PokemonDetail = ({ pokedexProp }) => {
     const location = useLocation();
 
     let { name } = useParams();
-    const [pokemonData, setPokemonData] = useState(location.state.pokemonData);
+    const [pokemonData, setPokemonData] = useState(location?.state?.pokemonData);
     const [speciesData, setSpeciesData] = useState(null);
     const [abilityOne, setAbilityOne] = useState('');
     const [abilityTwo, setAbilityTwo] = useState('');
+    const [evolutions, setEvolutions] = useState([]);
     const [pokedex, setPokedex] = useState(pokedexProp);
 
     useEffect(() => {
 
-        setPokemonData(location.state.pokemonData);
-        
         const checkData = async () => {
             if (pokedex.length === 0) {
                 setPokedex(await getPokedex(2));
-           }
+            }
         }
-
-        checkData();
         
         const fetchData = async () => {
+            await checkData();
+            setPokemonData(location?.state?.pokemonData || await getPokemon(name))
+            // fetch species
             const speciesData = await getSpecies(name);
             setSpeciesData(speciesData);
-
+            // fetch abilities
             const urlOne = pokemonData.abilities[0].ability.url;
             const abilityOne = await getAbility(urlOne);
             setAbilityOne(abilityOne);
@@ -79,8 +79,10 @@ export const PokemonDetail = ({ pokedexProp }) => {
             const urlTwo = pokemonData.abilities[1].ability.url;
             const abilityTwo = await getAbility(urlTwo);
             setAbilityTwo(abilityTwo);
+            // fetch evolutions
+            const evoUrl = speciesData.evolution_chain.url;
+            setEvolutions(await getEvolutionChain(evoUrl));
         };
-
         fetchData();
 
     },[name, pokedex])
@@ -92,6 +94,9 @@ export const PokemonDetail = ({ pokedexProp }) => {
             </main>
         );
     }
+
+    console.log(evolutions);
+
 
     const getDisplayableID = (num) => {
         let id = "#";
@@ -272,7 +277,7 @@ export const PokemonDetail = ({ pokedexProp }) => {
                     <img src={circleBg2} />
                 </div>
                 <div className="details-panel panel-6">
-                    <span className="no-evos-text">This Pokémon doesn't evolve.</span>
+                    { evolutions.length === 0 && <span className="no-evos-text">This Pokémon doesn't evolve.</span> }
                 </div>
             </div>
             <h2>Special Forms</h2>

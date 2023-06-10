@@ -3,14 +3,12 @@ import axios from "axios";
 const BASE_URL = 'https://pokeapi.co/api/v2/'
 
 export const getPokemon = async (pokemonName) => {
-    let data;
     try {
         const res = await axios.get(BASE_URL + `pokemon/${pokemonName}`);
-        data = res.data;
+        return res.data;
     } catch (e) {
         console.log(e)
     }
-    return data;
 }
 
 export const getPokedex = async (id) => {
@@ -39,4 +37,33 @@ export const getAbility = async (url) => {
     } catch (e) {
         console.log(e)
     }
+}
+
+export const getEvolutionChain = async (url) => {
+    let evoData;
+    try {
+        const res = await axios.get(url);
+        evoData = res.data.chain;
+    } catch (e) {
+        console.log(e);
+    }
+    const evoChain = await getEvolutions({ 'evoData': evoData, 'stage': 0 }, []);
+    const groupedEvoChain = evoChain.reduce((result, { pokemonData, stage }) => {
+        if (result[stage]) {
+            result[stage].push(pokemonData)
+        } else {
+            result.push([pokemonData]);
+        } 
+        return result;
+      }, []);
+    return groupedEvoChain;
+}
+
+const getEvolutions = async ({ evoData, stage }, evolutions) => {
+    evoData.evolves_to.forEach(async evolution => {
+        evolutions.concat(await getEvolutions({ 'evoData': evolution, 'stage': stage + 1 }, evolutions));
+    })
+    const pokemonData = await getPokemon(evoData.species.name);
+    evolutions.unshift({ pokemonData, stage });
+    return evolutions;
 }
