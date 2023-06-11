@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getAbility, getEvolutionChain, getPokedex, getPokemon, getSpecies } from "./api/pokedex";
 import { useLocation, useParams, Routes, Route, Link } from "react-router-dom";
+import { GridItem } from "./GridItem";
 import circleBg from './assets/circles-bg.svg';
 import circleBg2 from './assets/circles-bg-2.svg';
 import bugIcon from './assets/types/bug.svg';
@@ -85,9 +86,9 @@ export const PokemonDetail = ({ pokedexProp }) => {
         };
         fetchData();
 
-    },[name, pokedex])
+    },[name, pokedex, pokemonData])
 
-    if(!pokemonData || !speciesData || pokedex.length === 0) {
+    if(!pokemonData || !speciesData || pokedex.length === 0 || !pokedex) {
         return (
             <main className="loading-screen">
                 <span>Loading...</span>
@@ -95,7 +96,6 @@ export const PokemonDetail = ({ pokedexProp }) => {
         );
     }
 
-    console.log(evolutions);
 
 
     const getDisplayableID = (num) => {
@@ -142,6 +142,7 @@ export const PokemonDetail = ({ pokedexProp }) => {
     const prevPokemon = pokemonData.id === 1 ? pokedex[pokedex.length - 1] : pokedex[pokemonData.id - 2];
     const nextPokemon = pokemonData.id === pokedex.length ? pokedex[0] : pokedex[pokemonData.id];
 
+    console.log('Evolution State:', evolutions)
 
     return (
         <main id="detail">
@@ -278,6 +279,31 @@ export const PokemonDetail = ({ pokedexProp }) => {
                 </div>
                 <div className="details-panel panel-6">
                     { evolutions.length === 0 && <span className="no-evos-text">This Pokémon doesn't evolve.</span> }
+                    {evolutions.map((evolutionStage, index) => (
+                        <React.Fragment key={index}>
+                            {evolutionStage.map((pokemonData) => (
+                            <React.Fragment key={pokemonData.id}>
+                                <Link key={pokemonData.id} to={`/pokemon/${pokemonData.name}`} state={{ pokemonData }}>
+                                <GridItem
+                                    key={pokemonData.id}
+                                    id={pokemonData.id}
+                                    name={pokemonData.name}
+                                    sprite={pokemonData.sprites.front_default}
+                                    isEvoItem={true}
+                                />
+                                </Link>
+                            </React.Fragment>
+                            ))}
+                            {index !== evolutions.length - 1 && (
+                            <div key={`arrow-${index}`} className="evolution-btn-box">
+                                <div className="evo-arrow">
+                                <i className="ri-arrow-right-s-line"></i>
+                                </div>
+                            </div>
+                            )}
+                        </React.Fragment>
+                    ))}
+
                 </div>
             </div>
             <h2>Special Forms</h2>
