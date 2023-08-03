@@ -63,10 +63,11 @@ export const getEvolutionChain = async (url) => {
 }
 
 const getEvolutions = async ({ evoData, stage }, evolutions) => {
-    evoData.evolves_to.forEach(async evolution => {
-        evolutions.concat(await getEvolutions({ 'evoData': evolution, 'stage': stage + 1 }, evolutions));
-    })
+    for (const evolution of evoData.evolves_to) {
+      evolutions = await getEvolutions({ evoData: evolution, stage: stage + 1 }, evolutions);
+    }
     const pokemonData = await getPokemon(evoData.species.name);
     evolutions.unshift({ pokemonData, stage });
     return evolutions;
-}
+  };
+  
