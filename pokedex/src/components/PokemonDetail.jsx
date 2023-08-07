@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { getAbility, getEvolutionChain, getPokedex, getPokemon, getSpecies } from "./api/pokedex";
+import { getAbility, getEvolutionChain, getPokedex, getPokemon, getSpecies } from "../api/pokedex";
+import { getDisplayableID, getDisplayableName } from "../utils";
 import { useLocation, useParams, Routes, Route, Link } from "react-router-dom";
 import { GridItem } from "./GridItem";
+
 import circleBg from './assets/circles-bg.svg';
 import circleBg2 from './assets/circles-bg-2.svg';
 import bugIcon from './assets/types/bug.svg';
@@ -86,7 +88,7 @@ export const PokemonDetail = ({ pokedexProp }) => {
         };
         fetchData();
 
-    },[name, pokedex, pokemonData])
+    },[name])
 
     if(!pokemonData || !speciesData || pokedex.length === 0 || !pokedex) {
         return (
@@ -97,24 +99,6 @@ export const PokemonDetail = ({ pokedexProp }) => {
     }
 
 
-
-    const getDisplayableID = (num) => {
-        let id = "#";
-        for(let i = num.toString().length; i < 3; i++) {
-            id += "0";
-        }
-        return id + num;
-    }
-
-    const getDisplayableName = (str) => {
-        const words = str.split("-");
-        const res = words.map(word => {
-            const firstLetter = word[0];
-            const rest = word.slice(1);
-            return firstLetter.toUpperCase() + rest;
-        })
-        return res.join("-");
-    }
 
     // Pokemon Props
     const id = getDisplayableID(pokemonData.id);
@@ -141,8 +125,6 @@ export const PokemonDetail = ({ pokedexProp }) => {
 
     const prevPokemon = pokemonData.id === 1 ? pokedex[pokedex.length - 1] : pokedex[pokemonData.id - 2];
     const nextPokemon = pokemonData.id === pokedex.length ? pokedex[0] : pokedex[pokemonData.id];
-
-    console.log('Evolution State:', evolutions)
 
     return (
         <main id="detail">

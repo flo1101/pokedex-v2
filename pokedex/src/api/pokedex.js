@@ -47,10 +47,10 @@ export const getEvolutionChain = async (url) => {
     } catch (e) {
         console.log(e);
     }
-    console.log('Fetched Evolution Data:', evoData)
+    // console.log('Fetched Evolution Data:', evoData)
     const evoChain = await getEvolutions({ 'evoData': evoData, 'stage': 0 }, []);
     evoChain.sort((a,b) => a.stage - b.stage);
-    console.log('Grouping and Sorting:', evoChain);
+    // console.log('Grouping and Sorting:', evoChain);
     const groupedEvoChain = evoChain.reduce((result, { pokemonData, stage }) => {
         if (result[stage]) {
             result[stage].push(pokemonData)
