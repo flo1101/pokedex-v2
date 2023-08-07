@@ -1,6 +1,6 @@
 import React from "react"
 import { useState } from "react"
-import { getDisplayableID, getDisplayableName } from "../utils";
+import { getDisplayableID, getDisplayableName } from "./utils";
 
 export const GridItem = ({id, name, sprite, isEvoItem}) => {
 

@@ -1,8 +1,8 @@
 import { Routes, Route, Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { getPokedex } from '../api/pokedex';
+import { getPokedex } from './api/pokedex';
 import { GridItem } from './GridItem';
-import { PokemonDetail } from '../PokemonDetail';
+import { PokemonDetail } from './PokemonDetail';
 
 export const App = () => {
 

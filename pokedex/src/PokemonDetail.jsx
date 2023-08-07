@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { getAbility, getEvolutionChain, getPokedex, getPokemon, getSpecies } from "../api/pokedex";
-import { getDisplayableID, getDisplayableName } from "../utils";
+import { getAbility, getEvolutionChain, getPokedex, getPokemon, getSpecies } from "./api/pokedex";
 import { useLocation, useParams, Routes, Route, Link } from "react-router-dom";
 import { GridItem } from "./GridItem";
+import { getDisplayableID, getDisplayableName } from "./utils";
 
 import circleBg from './assets/circles-bg.svg';
 import circleBg2 from './assets/circles-bg-2.svg';
