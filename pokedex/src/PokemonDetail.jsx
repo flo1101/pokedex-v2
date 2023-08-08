@@ -69,7 +69,7 @@ export const PokemonDetail = ({ pokedex, setPokedex }) => {
             // console.log("LOCATION NAME: ", location?.state?.pokemonData.name)
 
             // fetch Pokedex / PokemonData if necessary
-            if (!pokedex) setPokedex(await getPokedex(2));
+            if (!pokedex) setPokedex(await getPokedex(1));
             const pokemon = location?.state?.pokemonData ? location?.state?.pokemonData : await getPokemon(name);
             setPokemonData(pokemon);
 

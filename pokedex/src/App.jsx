@@ -12,7 +12,7 @@ export const App = () => {
 
   useEffect(() => {
     const fetchPokedex = async () => {
-      const pokedexData = await getPokedex(2);
+      const pokedexData = await getPokedex(1);
       setPokedex(pokedexData);
       setDisplayedPokemon(pokedexData);
     };

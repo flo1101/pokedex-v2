@@ -12,11 +12,15 @@ export const getPokemon = async (pokemonName) => {
 }
 
 export const getPokedex = async (id) => {
-    console.log("POKEDEX FETCHED")
+    // 0 = national, 1 = kanto
+    const pokedex = [];
     const res = await axios.get(BASE_URL + `pokedex/${id}`);
     const data = res.data;
-    const numbers = data.pokemon_entries.map(entry => entry.entry_number);
-    return await Promise.all(numbers.map(num => getPokemon(num)));
+    for(const entry of data.pokemon_entries) {
+        const pokemon = await getPokemon(entry.entry_number);
+        pokedex.push(pokemon);
+    }
+    return pokedex;
 }
 
 export const getSpecies = async (pokemonName) => {
