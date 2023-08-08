@@ -59,11 +59,11 @@ export const PokemonDetail = ({ pokedex, setPokedex }) => {
     const [speciesData, setSpeciesData] = useState(null);
     const [abilities, setAbilities] = useState([]);
     const [evolutions, setEvolutions] = useState([]);
+    const [forms, setForms] = useState([]);
 
     useEffect(() => {
 
         const fetchData = async () => {
-            // console.log("POKEDEX: ", pokedex)
             // console.log("NAME: ", name)
             // console.log("DATA NAME: ", pokemonData?.name)
             // console.log("LOCATION NAME: ", location?.state?.pokemonData.name)
@@ -91,6 +91,11 @@ export const PokemonDetail = ({ pokedex, setPokedex }) => {
             // fetch evolutions
             const evoUrl = speciesData.evolution_chain.url;
             setEvolutions(await getEvolutionChain(evoUrl));
+
+            // fetch forms
+            if (speciesData.varieties.length > 1) {
+                const forms = speciesData.varieties.filter(form => form.is_default === false);
+            }
 
             setLoading(false);
         };

@@ -75,4 +75,13 @@ const getEvolutions = async ({ evoData, stage }, evolutions) => {
     evolutions.unshift({ pokemonData, stage });
     return evolutions;
   };
+
+export const getForms = async (name, speciesData) => {
+    if (speciesData.varieties.length === 1) return [];
+    const forms = [];
+    const formData = speciesData.varieties.filter(form => form.is_default === false);
+    for(const data in formData) {
+        
+    }
+}
   
