@@ -16,6 +16,7 @@ export const App = () => {
       const pokedexData = await getPokedex(1);
       setPokedex(pokedexData);
       setDisplayedPokemon(pokedexData);
+      setLoading(false);
     };
     fetchPokedex();
   }, []);
@@ -40,22 +41,29 @@ export const App = () => {
             <section className="top">
               <div className='searchform'>
                 <input className='searchbar' placeholder='Search Pokemon...' type="text" value={searchInput} onChange={handleSearchChange}/>
+                <i class="ri-search-line"></i>
               </div>
             </section>
-            <div className="grid">
-              {displayedPokemon.map(pokemonData => {
-                return (
-                  <Link key={pokemonData.id} to={`/pokemon/${pokemonData.name}`} state={{ pokemonData: pokemonData }}>
-                    <GridItem 
-                      key={pokemonData.id} 
-                      id={pokemonData.id} 
-                      name={pokemonData.name} 
-                      sprite={pokemonData.sprites.front_default}
-                    />
-                  </Link>
-                )
-            })}
-            </div>
+            {loading ? (
+              <div className="loading-screen">
+                <span>Loading...</span>
+              </div>
+            ) : (
+              <div className="grid">
+                {displayedPokemon.map(pokemonData => {
+                  return (
+                    <Link key={pokemonData.id} to={`/pokemon/${pokemonData.name}`} state={{ pokemonData: pokemonData }}>
+                      <GridItem 
+                        key={pokemonData.id} 
+                        id={pokemonData.id} 
+                        name={pokemonData.name} 
+                        sprite={pokemonData.sprites.front_default}
+                      />
+                    </Link>
+                  )
+              })}
+              </div>
+            )}
           </main>
       }></Route>
       <Route path="/pokemon/:name" element={<PokemonDetail pokedex={pokedex} setPokedex={setPokedex} />} ></Route>

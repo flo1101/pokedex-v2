@@ -74,6 +74,7 @@ main {
   align-items: center;
   width: 100vw;
   padding: 20px;
+  min-height: 100vh;
 }
 
 input {
@@ -102,8 +103,10 @@ h2 {
 }
 
 .loading-screen {
+  display: flex;
+  align-items: center;
   justify-content: center;
-  height: 100vh;
+  height: 80vh;
 }
 
 .loading-screen>span {
@@ -124,17 +127,26 @@ h2 {
 .searchform {
   width: 100%;
   max-width: 800px;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  background-color: rgb(67, 67, 67);
+  padding: 0 30px;
+}
+
+.searchform > i {
+  color: rgb(182, 182, 182);
+  font-size: 1.1rem;
 }
 
 .searchbar {
-  background-color: rgb(67, 67, 67);
-  padding: 20px 30px;
+  background-color: transparent;
   font-size: 18px;
-  border-radius: 50px;
   width: 100%;
   font-weight: 400;
   color: white;
   height: 70px;
+  padding-right: 10px;
 }
 
 .searchbar::placeholder {
