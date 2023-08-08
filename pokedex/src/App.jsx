@@ -9,6 +9,7 @@ export const App = () => {
   const [searchInput, setSearchInput] = useState('');
   const [pokedex, setPokedex] = useState([]);
   const [displayedPokemon, setDisplayedPokemon] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchPokedex = async () => {
@@ -32,28 +33,30 @@ export const App = () => {
 
   return (
     <Routes>
-      <Route path="/" element={
-        <main>
-          <section className="top">
-            <div className='searchform'>
-              <input className='searchbar' placeholder='Search Pokemon...' type="text" value={searchInput} onChange={handleSearchChange}/>
+      <Route 
+        path="/"
+        element={
+          <main>
+            <section className="top">
+              <div className='searchform'>
+                <input className='searchbar' placeholder='Search Pokemon...' type="text" value={searchInput} onChange={handleSearchChange}/>
+              </div>
+            </section>
+            <div className="grid">
+              {displayedPokemon.map(pokemonData => {
+                return (
+                  <Link key={pokemonData.id} to={`/pokemon/${pokemonData.name}`} state={{ pokemonData: pokemonData }}>
+                    <GridItem 
+                      key={pokemonData.id} 
+                      id={pokemonData.id} 
+                      name={pokemonData.name} 
+                      sprite={pokemonData.sprites.front_default}
+                    />
+                  </Link>
+                )
+            })}
             </div>
-          </section>
-          <div className="grid">
-            {displayedPokemon.map(pokemonData => {
-              return (
-                <Link key={pokemonData.id} to={`/pokemon/${pokemonData.name}`} state={{ pokemonData: pokemonData }}>
-                  <GridItem 
-                    key={pokemonData.id} 
-                    id={pokemonData.id} 
-                    name={pokemonData.name} 
-                    sprite={pokemonData.sprites.front_default}
-                  />
-                </Link>
-              )
-          })}
-          </div>
-        </main>
+          </main>
       }></Route>
       <Route path="/pokemon/:name" element={<PokemonDetail pokedex={pokedex} setPokedex={setPokedex} />} ></Route>
     </Routes>

@@ -76,12 +76,14 @@ const getEvolutions = async ({ evoData, stage }, evolutions) => {
     return evolutions;
   };
 
-export const getForms = async (name, speciesData) => {
+export const getForms = async (speciesData) => {
     if (speciesData.varieties.length === 1) return [];
     const forms = [];
     const formData = speciesData.varieties.filter(form => form.is_default === false);
-    for(const data in formData) {
-        
+    for(const form of formData) {
+        const res = await axios.get(form.pokemon.url);
+        forms.push(res.data);
     }
+    return forms;
 }
   

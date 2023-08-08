@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getAbility, getEvolutionChain, getPokedex, getPokemon, getSpecies } from "./api/pokedex";
+import { getAbility, getEvolutionChain, getPokedex, getPokemon, getSpecies, getForms } from "./api/pokedex";
 import { useLocation, useParams, Routes, Route, Link } from "react-router-dom";
 import { GridItem } from "./GridItem";
 import { getDisplayableID, getDisplayableName } from "./utils";
@@ -93,9 +93,7 @@ export const PokemonDetail = ({ pokedex, setPokedex }) => {
             setEvolutions(await getEvolutionChain(evoUrl));
 
             // fetch forms
-            if (speciesData.varieties.length > 1) {
-                const forms = speciesData.varieties.filter(form => form.is_default === false);
-            }
+            setForms(await getForms(speciesData));
 
             setLoading(false);
         };
@@ -282,13 +280,13 @@ export const PokemonDetail = ({ pokedex, setPokedex }) => {
                             {evolutionStage.map((pokemonData) => (
                             <React.Fragment key={pokemonData.id}>
                                 <Link key={pokemonData.id} to={`/pokemon/${pokemonData.name}`} state={{ pokemonData }}>
-                                <GridItem
-                                    key={pokemonData.id}
-                                    id={pokemonData.id}
-                                    name={pokemonData.name}
-                                    sprite={pokemonData.sprites.front_default}
-                                    isEvoItem={true}
-                                />
+                                    <GridItem
+                                        key={pokemonData.id}
+                                        id={pokemonData.id}
+                                        name={pokemonData.name}
+                                        sprite={pokemonData.sprites.front_default}
+                                        isEvoItem={true}
+                                    />
                                 </Link>
                             </React.Fragment>
                             ))}
@@ -301,13 +299,21 @@ export const PokemonDetail = ({ pokedex, setPokedex }) => {
                             )}
                         </React.Fragment>
                     ))}
-
                 </div>
             </div>
             <h2>Special Forms</h2>
             <div className="grid-details-three">
                 <div className="details-panel panel-7">
-                    <span className="no-forms-text">This Pokémon has no special forms.</span>
+                    {!forms.length &&  <span className="no-forms-text">This Pokémon has no special forms.</span>}
+                    {forms.map(form => (
+                        <GridItem 
+                            key={form.id}
+                            id={form.id}
+                            name={form.name}
+                            sprite={form.sprites.front_default}
+                            isFormItem={true}
+                        />
+                    ))}
                 </div>
             </div>
         </main>

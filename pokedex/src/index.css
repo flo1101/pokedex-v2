@@ -682,3 +682,12 @@ circle {
   font-size: 2rem;
   color: #adadad;
 }
+
+.form-item {
+  margin-right: .7rem;
+  min-width: 200px;
+}
+
+.form-item:last-of-type {
+  margin-right: 0;
+}
