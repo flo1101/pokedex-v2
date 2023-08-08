@@ -42,7 +42,7 @@ export const App = () => {
           <div className="grid">
             {displayedPokemon.map(pokemonData => {
               return (
-                <Link key={pokemonData.id} to={`/pokemon/${pokemonData.name}`} state={{ pokemonData }}>
+                <Link key={pokemonData.id} to={`/pokemon/${pokemonData.name}`} state={{ pokemonData: pokemonData }}>
                   <GridItem 
                     key={pokemonData.id} 
                     id={pokemonData.id} 
@@ -55,7 +55,7 @@ export const App = () => {
           </div>
         </main>
       }></Route>
-      <Route path="/pokemon/:name" element={<PokemonDetail pokedexProp={pokedex}/>} ></Route>
+      <Route path="/pokemon/:name" element={<PokemonDetail pokedex={pokedex} setPokedex={setPokedex} />} ></Route>
     </Routes>
   )
 }

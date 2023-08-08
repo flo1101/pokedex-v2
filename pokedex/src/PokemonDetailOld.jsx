@@ -48,57 +48,49 @@ const typeData = {
 
 
   
-export const PokemonDetail = ({ pokedex, setPokedex }) => {
+export const PokemonDetailOld = ({ pokedexProp }) => {
 
     const location = useLocation();
 
     let { name } = useParams();
-    const [loading, setLoading] = useState(true);
-    
-    const [pokemonData, setPokemonData] = useState(null);
+    const [pokemonData, setPokemonData] = useState(location?.state?.pokemonData);
     const [speciesData, setSpeciesData] = useState(null);
-    const [abilities, setAbilities] = useState([]);
+    const [abilityOne, setAbilityOne] = useState('');
+    const [abilityTwo, setAbilityTwo] = useState('');
     const [evolutions, setEvolutions] = useState([]);
+    const [pokedex, setPokedex] = useState(pokedexProp);
 
     useEffect(() => {
 
+        const checkData = async () => {
+            if (pokedex.length === 0) {
+                setPokedex(await getPokedex(2));
+            }
+        }
+        
         const fetchData = async () => {
-            // console.log("POKEDEX: ", pokedex)
-            // console.log("NAME: ", name)
-            // console.log("DATA NAME: ", pokemonData?.name)
-            // console.log("LOCATION NAME: ", location?.state?.pokemonData.name)
-
-            // fetch Pokedex / PokemonData if necessary
-            if (!pokedex) setPokedex(await getPokedex(2));
-            const pokemon = location?.state?.pokemonData ? location?.state?.pokemonData : await getPokemon(name);
-            setPokemonData(pokemon);
-
+            await checkData();
+            setPokemonData(location?.state?.pokemonData || await getPokemon(name))
             // fetch species
             const speciesData = await getSpecies(name);
             setSpeciesData(speciesData);
-
             // fetch abilities
-            const urlOne = pokemon.abilities[0].ability.url;
+            const urlOne = pokemonData.abilities[0].ability.url;
             const abilityOne = await getAbility(urlOne);
-            setAbilities((prevAbilities) => [...prevAbilities, abilityOne]);
-
-            if (pokemon.abilities.length > 1) {
-                const urlTwo = pokemon.abilities[1].ability.url;
-                const abilityTwo = await getAbility(urlTwo);
-                setAbilities((prevAbilities) => [...prevAbilities, abilityTwo]);
-            };
-            
+            setAbilityOne(abilityOne);
+            if (pokemonData.abilities.length <= 1) return;
+            const urlTwo = pokemonData.abilities[1].ability.url;
+            const abilityTwo = await getAbility(urlTwo);
+            setAbilityTwo(abilityTwo);
             // fetch evolutions
             const evoUrl = speciesData.evolution_chain.url;
             setEvolutions(await getEvolutionChain(evoUrl));
-
-            setLoading(false);
         };
         fetchData();
 
     },[name])
 
-    if(loading) {
+    if(!pokemonData || !speciesData || pokedex.length === 0 || !pokedex) {
         return (
             <main className="loading-screen">
                 <span>Loading...</span>
@@ -107,7 +99,7 @@ export const PokemonDetail = ({ pokedex, setPokedex }) => {
     }
 
 
-    // Displayed Infos
+    // Pokemon Props
     const id = getDisplayableID(pokemonData.id);
     const dName = getDisplayableName(name);
     const img = pokemonData.sprites.other["official-artwork"].front_default;
@@ -126,10 +118,10 @@ export const PokemonDetail = ({ pokedex, setPokedex }) => {
     const spDef = pokemonData.stats[4].base_stat;
     const init = pokemonData.stats[5].base_stat;
     const types = pokemonData.types.map(type => type.type.name);
+
     const abilityOneName = getDisplayableName(pokemonData.abilities[0].ability.name);
     const abilityTwoName = pokemonData.abilities.length > 1 ? getDisplayableName(pokemonData.abilities[1].ability.name) : '';
 
-    // Prev/Next Pokemon
     const prevPokemon = pokemonData.id === 1 ? pokedex[pokedex.length - 1] : pokedex[pokemonData.id - 2];
     const nextPokemon = pokemonData.id === pokedex.length ? pokedex[0] : pokedex[pokemonData.id];
 
@@ -255,17 +247,13 @@ export const PokemonDetail = ({ pokedex, setPokedex }) => {
                     <div className="abilities-content">
                         <div className="ability-one">
                             <span className="ability-one-name">{abilityOneName}</span>
-                            <p className="ability-one-text">{abilities[0]}</p>
+                            <p className="ability-one-text">{abilityOne}</p>
                         </div>
-                        { abilities.length > 1 && (
-                            <>
-                                <div className="abilities-break"></div>
-                                <div className="ability-two">
-                                    <span className="ability-two-name">{abilityTwoName}</span>
-                                    <p className="ability-two-text">{abilities[1]}</p>
-                                </div>
-                            </>
-                        )}
+                        { abilityTwo && <div className="abilities-break"></div> }
+                        <div className="ability-two">
+                            <span className="ability-two-name">{abilityTwoName}</span>
+                            <p className="ability-two-text">{abilityTwo}</p>
+                        </div>
                     </div>
                     <div className="bg-shape-abilities"></div>
                     <img src={circleBg2} />

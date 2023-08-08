@@ -12,6 +12,7 @@ export const getPokemon = async (pokemonName) => {
 }
 
 export const getPokedex = async (id) => {
+    console.log("POKEDEX FETCHED")
     const res = await axios.get(BASE_URL + `pokedex/${id}`);
     const data = res.data;
     const numbers = data.pokemon_entries.map(entry => entry.entry_number);
