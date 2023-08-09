@@ -41,12 +41,12 @@ export const App = () => {
             <section className="top">
               <div className='searchform'>
                 <input className='searchbar' placeholder='Search Pokemon...' type="text" value={searchInput} onChange={handleSearchChange}/>
-                <i class="ri-search-line"></i>
+                <i className="ri-search-line"></i>
               </div>
             </section>
             {loading ? (
               <div className="loading-screen">
-                <span>Loading...</span>
+                <span>Loading Pokédex...</span>
               </div>
             ) : (
               <div className="grid">

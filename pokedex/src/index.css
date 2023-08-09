@@ -703,3 +703,94 @@ circle {
 .form-item:last-of-type {
   margin-right: 0;
 }
+
+@media (max-width: 1000px) {
+  .grid-details-one {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+  }
+
+  .details-prop-name {text-align: center}
+
+  .panel-2 > div {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+  }
+
+  .details-flavor-text {
+      margin-top: 3rem;
+      text-align: center;
+      padding: 0 1rem;
+  }
+
+  .panel-1 {
+      order: 2;
+  }
+
+  .panel-2 {
+      order: 1;
+      height: auto;
+  }
+  .panel-3 {
+      order: 3;
+  }
+
+  .panel-4 {
+      order: 4;
+      grid-row-gap: 2rem;
+  }
+
+  #overlay-box {
+      padding-top: 5rem;
+  }
+
+  .overlay-back-btn {
+      top: 1.5rem;
+      right: 1.5rem
+  }
+}
+
+@media (max-width: 700px) {
+  .settings-prev-name, .settings-next-name {
+      display: none;
+  }
+}
+
+
+@media (max-width: 500px) {
+
+  h2 {
+      font-size: 13vw;
+  }
+
+  .panel-4 {
+      grid-template-columns: 1fr 1fr;
+  }
+
+  #grid-box {
+      width: 100%;
+      display: grid;
+      margin-top: 3rem;
+      grid-gap: 1.3rem;
+      grid-template-columns: 45% 45%;
+      justify-content: center;
+      max-width: 100rem;
+      padding: 0 1rem 6rem;
+  }
+
+  .img-box {
+      padding: 0.5rem;
+  }
+
+  .details-img-box {
+      height: auto;
+  }
+
+  .grid-item {
+      position: relative;
+      height:auto;
+  }
+
+}

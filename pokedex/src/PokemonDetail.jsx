@@ -104,7 +104,7 @@ export const PokemonDetail = ({ pokedex, setPokedex }) => {
     if(loading) {
         return (
             <main className="loading-screen">
-                <span>Loading...</span>
+                <span>Loading {getDisplayableName(name)}...</span>
             </main>
         );
     }
@@ -158,7 +158,7 @@ export const PokemonDetail = ({ pokedex, setPokedex }) => {
             <div className="grid-details-one">
                 <div className="details-panel panel-1">
                     <div className="details-img-box">
-                        <img className="details-img" src={img} alt="" />
+                            <img className="details-img" src={img} alt="" />
                     </div>
                     <img className="circle-bg" src={circleBg} />
                 </div>
