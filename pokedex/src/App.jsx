@@ -40,8 +40,11 @@ export const App = () => {
           <main>
             <section className="top">
               <div className='searchform'>
-                <input className='searchbar' placeholder='Search Pokemon...' type="text" value={searchInput} onChange={handleSearchChange}/>
-                <i className="ri-search-line"></i>
+                <input className={`searchbar ${loading && "no-access"}`} 
+                        placeholder='Search Pokemon...'
+                        type="text" value={searchInput} 
+                        onChange={handleSearchChange}/>
+                <i className={`ri-search-line ${loading && "no-access"}`} ></i>
               </div>
             </section>
             {loading ? (

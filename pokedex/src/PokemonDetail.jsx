@@ -64,9 +64,11 @@ export const PokemonDetail = ({ pokedex, setPokedex }) => {
     useEffect(() => {
 
         const fetchData = async () => {
+            // console.log("LOADING: ", loading)
             // console.log("NAME: ", name)
             // console.log("DATA NAME: ", pokemonData?.name)
             // console.log("LOCATION NAME: ", location?.state?.pokemonData.name)
+            window.scrollTo(0,0);
 
             // fetch Pokedex / PokemonData if necessary
             if (!pokedex) setPokedex(await getPokedex(1));
@@ -111,44 +113,44 @@ export const PokemonDetail = ({ pokedex, setPokedex }) => {
 
 
     // Displayed Infos
-    const id = getDisplayableID(pokemonData.id);
+    const id = getDisplayableID(pokemonData?.id);
     const dName = getDisplayableName(name);
-    const img = pokemonData.sprites.other["official-artwork"].front_default;
-    const description = speciesData.flavor_text_entries
-        .filter(entry => entry.language.name === "en")[0].flavor_text
+    const img = pokemonData?.sprites.other["official-artwork"].front_default;
+    const description = speciesData?.flavor_text_entries
+        .filter(entry => entry?.language?.name === "en")[0]?.flavor_text
         .replaceAll("\n"," ")
         .replaceAll("\f", " ");
-    const heightMtr = pokemonData.height / 10;
-    const weightKg = pokemonData.weight / 10;
-    let rarity = speciesData.is_legendary === true ? "Legendary" : "Generic";
-    rarity = speciesData.is_mythical === true ? "Mythical" : rarity;
-    const hp = pokemonData.stats[0].base_stat;
-    const att = pokemonData.stats[1].base_stat;
-    const def = pokemonData.stats[2].base_stat;
-    const spAtt = pokemonData.stats[3].base_stat;
-    const spDef = pokemonData.stats[4].base_stat;
-    const init = pokemonData.stats[5].base_stat;
-    const types = pokemonData.types.map(type => type.type.name);
-    const abilityOneName = getDisplayableName(pokemonData.abilities[0].ability.name);
-    const abilityTwoName = pokemonData.abilities.length > 1 ? getDisplayableName(pokemonData.abilities[1].ability.name) : '';
+    const heightMtr = pokemonData?.height / 10;
+    const weightKg = pokemonData?.weight / 10;
+    let rarity = speciesData?.is_legendary === true ? "Legendary" : "Generic";
+    rarity = speciesData?.is_mythical === true ? "Mythical" : rarity;
+    const hp = pokemonData?.stats[0].base_stat;
+    const att = pokemonData?.stats[1].base_stat;
+    const def = pokemonData?.stats[2].base_stat;
+    const spAtt = pokemonData?.stats[3].base_stat;
+    const spDef = pokemonData?.stats[4].base_stat;
+    const init = pokemonData?.stats[5].base_stat;
+    const types = pokemonData?.types.map(type => type.type.name);
+    const abilityOneName = getDisplayableName(pokemonData?.abilities[0].ability.name);
+    const abilityTwoName = pokemonData?.abilities.length > 1 ? getDisplayableName(pokemonData?.abilities[1].ability.name) : '';
 
     // Prev/Next Pokemon
-    const prevPokemon = pokemonData.id === 1 ? pokedex[pokedex.length - 1] : pokedex[pokemonData.id - 2];
-    const nextPokemon = pokemonData.id === pokedex.length ? pokedex[0] : pokedex[pokemonData.id];
+    const prevPokemon = pokemonData?.id === 1 ? pokedex[pokedex.length - 1] : pokedex[pokemonData?.id - 2];
+    const nextPokemon = pokemonData?.id === pokedex.length ? pokedex[0] : pokedex[pokemonData?.id];
 
     return (
         <main id="detail">
             <div className="top">
                 <div className="navbar">
-                    <Link className="prev-pokemon" key={prevPokemon.id} to={`/pokemon/${prevPokemon.name}`} state={{ pokemonData: prevPokemon }}>
+                    <Link className="prev-pokemon" key={prevPokemon?.id} to={`/pokemon/${prevPokemon?.name}`} state={{ pokemonData: prevPokemon }}>
                         <i className="ri-arrow-left-s-line"></i>
                         <div className="navbar-prev-id">{prevPokemon && getDisplayableID(prevPokemon.id)}</div>
                         <div className="navbar-prev-name">{prevPokemon && getDisplayableName(prevPokemon.name)}</div>
                     </Link>
-                    <Link id="navbar-back-btn" key={pokemonData.id} to={"/"}>
+                    <Link id="navbar-back-btn" key={pokemonData?.id} to={"/"}>
                         <i className="ri-home-2-fill"></i>
                     </Link>
-                    <Link className="next-pokemon" key={nextPokemon.id} to={`/pokemon/${nextPokemon.name}`} state={{ pokemonData: nextPokemon }}>
+                    <Link className="next-pokemon" key={nextPokemon?.id} to={`/pokemon/${nextPokemon?.name}`} state={{ pokemonData: nextPokemon }}>
                         <div className="navbar-next-id">{nextPokemon && getDisplayableID(nextPokemon.id)}</div>
                         <div className="navbar-next-name">{nextPokemon && getDisplayableName(nextPokemon.name)}</div>
                         <i className="ri-arrow-right-s-line"></i>

@@ -12,7 +12,6 @@ export const getPokemon = async (pokemonName) => {
 }
 
 export const getPokedex = async (id) => {
-    // 0 = national, 1 = kanto
     const pokedex = [];
     const res = await axios.get(BASE_URL + `pokedex/${id}`);
     const data = res.data;
