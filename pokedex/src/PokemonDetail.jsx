@@ -64,10 +64,6 @@ export const PokemonDetail = ({ pokedex, setPokedex }) => {
     useEffect(() => {
 
         const fetchData = async () => {
-            // console.log("LOADING: ", loading)
-            // console.log("NAME: ", name)
-            // console.log("DATA NAME: ", pokemonData?.name)
-            // console.log("LOCATION NAME: ", location?.state?.pokemonData.name)
             window.scrollTo(0,0);
 
             // fetch Pokedex / PokemonData if necessary
