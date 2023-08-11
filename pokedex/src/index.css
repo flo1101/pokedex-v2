@@ -167,7 +167,7 @@ h2 {
   grid-gap: 15px;
   grid-template-columns: repeat(auto-fit, 200px);
   justify-content: center;
-  max-width: 1200px;
+  max-width: 1300px;
   margin-top: 50px;
 }
 
@@ -706,6 +706,11 @@ circle {
 .form-item {
   margin-right: .7rem;
   min-width: 200px;
+}
+
+.form-item:hover {
+  scale: 1;
+  cursor: auto;
 }
 
 .form-item:last-of-type {
