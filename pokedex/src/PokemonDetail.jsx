@@ -277,15 +277,27 @@ export const PokemonDetail = ({ pokedex, setPokedex }) => {
                         <React.Fragment key={index}>
                             {evolutionStage.map((pokemonData) => (
                             <React.Fragment key={pokemonData.id}>
-                                <Link key={pokemonData.id} to={`/pokemon/${pokemonData.name}`} state={{ pokemonData }}>
-                                    <GridItem
-                                        key={pokemonData.id}
-                                        id={pokemonData.id}
-                                        name={pokemonData.name}
-                                        sprite={pokemonData.sprites.front_default}
-                                        isEvoItem={true}
-                                    />
-                                </Link>
+                                {pokemonData.id >= 1 && pokemonData.id <= 151 ? (
+                                    <Link key={pokemonData.id} to={`/pokemon/${pokemonData.name}`} state={{ pokemonData }}>
+                                        <GridItem
+                                            key={pokemonData.id}
+                                            id={pokemonData.id}
+                                            name={pokemonData.name}
+                                            sprite={pokemonData.sprites.front_default}
+                                            isEvoItem={true}
+                                        />
+                                    </Link>
+                                ) : (
+                                    <div key={pokemonData.id} >
+                                        <GridItem
+                                            key={pokemonData.id}
+                                            id={pokemonData.id}
+                                            name={pokemonData.name}
+                                            sprite={pokemonData.sprites.front_default}
+                                            isEvoItem={true}
+                                        />
+                                    </div>
+                                )}
                             </React.Fragment>
                             ))}
                             {index !== evolutions.length - 1 && (

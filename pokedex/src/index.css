@@ -189,6 +189,14 @@ h2 {
   scale: 1.025;
 }
 
+.not-included {
+  cursor: default;
+}
+
+.not-included:hover {
+  scale: 1;
+}
+
 .item-img {
   height: 130px;
 }
@@ -223,7 +231,6 @@ h2 {
 .next-pokemon {
   display: flex;
   align-items: center;
-  align-items: center;
 }
 
 .navbar {
@@ -232,6 +239,10 @@ h2 {
   height: 70px;
   border-radius: 50px;
   overflow: hidden;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  justify-content: center;
 }
 
 .prev-pokemon,
@@ -826,6 +837,13 @@ circle {
 @media (max-width: 700px) {
   .settings-prev-name, .settings-next-name {
       display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .navbar-next-name,
+  .navbar-prev-name {
+    display: none;
   }
 }
 
