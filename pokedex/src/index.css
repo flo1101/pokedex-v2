@@ -189,14 +189,6 @@ h2 {
   scale: 1.025;
 }
 
-.not-included {
-  cursor: default;
-}
-
-.not-included:hover {
-  scale: 1;
-}
-
 .item-img {
   height: 130px;
 }
@@ -781,6 +773,42 @@ circle {
   height: 200px;
   background-color: rgb(67, 67, 67);
   border-radius: 10px;
+}
+
+
+
+
+.loading-alert{
+  position: fixed;
+  background-color: #ffffff;
+  padding: 1rem;
+  display: flex;
+  line-height: 1;
+  bottom: 2rem;
+  left: 2rem;
+  z-index: 10;
+  border-radius: .5rem;
+  z-index: 11;
+}
+
+.ri-refresh-line {
+  width: 1rem;
+  height: 1rem;
+  animation: rotate;
+  animation-duration: 1.5s;
+  transform-origin: center;
+  animation-iteration-count: infinite;
+  margin-left: .5rem;
+}
+
+@keyframes rotate {
+  0% {
+      transform: rotate(0deg);
+  }
+
+  100% {
+      transform: rotate(360deg);
+  }
 }
 
 

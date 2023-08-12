@@ -61,6 +61,12 @@ export const App = () => {
                 </div>
               </div>
             )}
+            {loading && (
+              <div className="loading-alert">
+                  Loading Pokédex
+                  <i className="ri-refresh-line"></i>
+              </div>
+            )}
             <main>
               <section className="top">
                 <div className='searchform'>
