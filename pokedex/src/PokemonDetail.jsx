@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getAbility, getEvolutionChain, getPokedex, getPokemon, getSpecies, getForms } from "./api/pokedex";
+import { getAbility, getEvolutionChain, getPokemon, getSpecies, getForms, getPokedex } from "./api/pokedex";
 import { useLocation, useParams, Link } from "react-router-dom";
 import { GridItem } from "./GridItem";
 import { getDisplayableID, getDisplayableName } from "./utils";
@@ -67,7 +67,7 @@ export const PokemonDetail = ({ pokedex, setPokedex }) => {
             window.scrollTo(0,0);
 
             // fetch Pokedex / PokemonData if necessary
-            if (!pokedex) setPokedex(await getPokedex(1));
+            if (!pokedex) setPokedex(await getPokedex(2));
             const pokemon = location?.state?.pokemonData ? location?.state?.pokemonData : await getPokemon(name);
             setPokemonData(pokemon);
 

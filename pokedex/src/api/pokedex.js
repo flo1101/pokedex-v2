@@ -9,7 +9,7 @@ export const getPokemon = async (pokemonName) => {
     }
 }
 
-export const getPokedex = async (id) => {
+export async function getPokedex(id) {
     const pokedex = [];
     const res = await fetch(BASE_URL + `pokedex/${id}`);
     const data = await res.json();

@@ -223,6 +223,7 @@ h2 {
 .next-pokemon {
   display: flex;
   align-items: center;
+  align-items: center;
 }
 
 .navbar {
@@ -716,6 +717,63 @@ circle {
 .form-item:last-of-type {
   margin-right: 0;
 }
+
+.popup {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  color: white;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(0px);
+}
+
+.popup-content {
+  background-color: #272727;
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  max-width: 90vw;
+}
+
+.popup-content > p {
+  margin: 25px 0;
+  max-width: 450px;
+}
+
+.popup-content > p > div {
+  margin-top: 20px;
+}
+
+.popup-link {
+  color: rgb(255, 71, 39);
+  text-decoration: underline;
+}
+
+.popup-close {
+  background: var(--bg-gradient-orange-l);
+  padding: 20px 25px;
+  border-radius: 50px;
+  text-transform: uppercase;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.preload-panel {
+  height: 200px;
+  background-color: rgb(67, 67, 67);
+  border-radius: 10px;
+}
+
+
+
 
 @media (max-width: 1000px) {
   .grid-details-one {
